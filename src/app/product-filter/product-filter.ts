@@ -11,8 +11,8 @@ import { ICategory } from '../models/icategory';
 })
 export class ProductFilter {
   categories = input<ICategory[]>([]);
-  prices = input<number[]>([]);
   selectedId = input<number | null>(null);
+  cartCount = input<number>(0);
   selectionChanged = output<number | null>();
 
   onSelectionChange(event: Event): void {
@@ -23,8 +23,5 @@ export class ProductFilter {
 
     const value = Number(target.value);
     this.selectionChanged.emit(value === 0 ? null : value);
-  }
-  getTotalPrice(): number {
-    return this.prices().reduce((total, price) => total + price, 0);
   }
 }

@@ -98,6 +98,11 @@ export class Product {
     ];
 
     selectedCategoryId: number | null = null;
+    cart: Record<number, number> = {};
+
+    get cartItemCount(): number {
+      return Object.values(this.cart).reduce((total, count) => total + count, 0);
+    }
 
     get filteredProducts(): IProduct[] {
       if (!this.selectedCategoryId) {
@@ -115,6 +120,23 @@ export class Product {
 
     getStockLabel(quantity: number): string {
       return quantity > 0 ? 'In Stock' : 'Out of Stock';
+    }
+
+    getCartQuantity(productId: number): number {
+      return this.cart[productId] ?? 0;
+    }
+
+    addToCart(product: IProduct): void {
+      if (product.quantity <= 0) {
+        return;
+      }
+
+      const currentCount = this.getCartQuantity(product.id);
+      if (currentCount >= product.quantity) {
+        return;
+      }
+
+      this.cart[product.id] = currentCount + 1;
     }
 
     onCategoryChanged(categoryId: number | null): void {
