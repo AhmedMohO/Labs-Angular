@@ -1,0 +1,52 @@
+<form class="card mt-3" (ngSubmit)="onSubmit()">
+  @if (student()) {
+	<div class="card-body">
+		<h5 class="card-title">Edit Student</h5>
+			@if (showAlert()) {
+				<div class="alert alert-warning mb-3" role="alert">
+					ID already exists or invalid input.
+				</div>
+			}
+			<div class="row g-3">
+				<div class="col-sm-4">
+					<label class="form-label" for="editStudentId">ID</label>
+					<input
+						id="editStudentId"
+						class="form-control"
+						type="number"
+						name="id"
+						[(ngModel)]="student()!.id"
+						required
+					/>
+				</div>
+				<div class="col-sm-4">
+					<label class="form-label" for="editStudentName">Name</label>
+					<input
+						id="editStudentName"
+						class="form-control"
+						name="name"
+						[(ngModel)]="student()!.name"
+						required
+					/>
+				</div>
+				<div class="col-sm-4">
+					<label class="form-label" for="editStudentAge">Age</label>
+					<input
+						id="editStudentAge"
+						class="form-control"
+						type="number"
+						name="age"
+						[(ngModel)]="student()!.age"
+						required
+					/>
+				</div>
+			</div>
+			<div class="mt-3 d-flex gap-2">
+				<button class="btn btn-primary" type="submit">Save</button>
+				<button class="btn btn-outline-secondary" type="button" (click)="onCancel()">
+					Cancel
+				</button>
+			</div>
+    </div>
+  }
+</form>

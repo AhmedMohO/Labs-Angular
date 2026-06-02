@@ -1,0 +1,17 @@
+<div class="card mb-3">
+	<div class="card-body">
+		<label class="form-label" for="categorySelect">Category</label>
+		<select
+			id="categorySelect"
+			class="form-select"
+			[value]="selectedId() ?? 0"
+			(change)="onSelectionChange($event)"
+		>
+			<option [value]="0">All Categories</option>
+      @for (category of categories(); track category.id) {
+				<option [value]="category.id">{{ category.name }}</option>
+      }
+		</select>
+    <h2>Total: {{ getTotalPrice() }}$</h2>
+	</div>
+</div>

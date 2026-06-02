@@ -1,0 +1,38 @@
+<div class="container py-3">
+  <app-product-filter
+    [categories]="categories"
+    [prices]="products.map(p => p.price)"
+    [selectedId]="selectedCategoryId"
+    (selectionChanged)="onCategoryChanged($event)"
+  ></app-product-filter>
+	<div class="row g-3">
+    @for (product of filteredProducts; track product.id) {
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img class="card-img-top" [src]="product.imgUrl" [alt]="product.name" />
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text mb-2">{{ product.price }} USD</p>
+            <div class="d-flex flex-wrap gap-2 mb-2">
+              <p-badge [value]="getCategoryName(product.catId)"></p-badge>
+              <p-badge
+                [value]="getStockLabel(product.quantity)"
+              ></p-badge>
+            </div>
+            <p-rating
+              [ngModel]="product.rating"
+            ></p-rating>
+            <div class="mt-auto pt-3">
+              <button
+                pButton
+                type="button"
+                label="Add to Cart"
+                class="p-button-sm w-100"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+	</div>
+</div>

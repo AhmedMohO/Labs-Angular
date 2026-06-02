@@ -1,0 +1,18 @@
+<div class="card mt-3">
+  @if (student()) {
+	<div class="card-body">
+		<h5 class="card-title">Student Details</h5>
+			<div class="row g-2">
+				<div class="col-12 col-md-4">
+					<strong>ID:</strong> {{ student()!.id }}
+				</div>
+				<div class="col-12 col-md-4">
+					<strong>Name:</strong> {{ student()!.name }}
+				</div>
+				<div class="col-12 col-md-4">
+					<strong>Age:</strong> {{ student()!.age }}
+				</div>
+			</div>
+    </div>
+  }
+</div>

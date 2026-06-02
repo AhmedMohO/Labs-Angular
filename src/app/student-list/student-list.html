@@ -1,0 +1,30 @@
+<div class="table-responsive">
+	<table class="table table-striped table-bordered mb-0">
+		<thead class="table-dark">
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Age</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+      @for (student of students(); track student.id) {
+			<tr (click)="studentSelected.emit(student)" role="button">
+				<td>{{ student.id }}</td>
+				<td>{{ student.name }}</td>
+				<td>{{ student.age }}</td>
+				<td>
+					<button
+						class="btn btn-sm btn-outline-primary"
+						type="button"
+						(click)="$event.stopPropagation(); editRequested.emit(student)"
+					>
+						Edit
+					</button>
+				</td>
+			</tr>
+      }
+		</tbody>
+	</table>
+</div>
