@@ -12,7 +12,7 @@ import { ICategory } from '../models/icategory';
 export class ProductFilter {
   categories = input<ICategory[]>([]);
   selectedId = input<number | null>(null);
-  cartCount = input<number>(0);
+  cartTotalPrice = input<number>(0);
   selectionChanged = output<number | null>();
 
   onSelectionChange(event: Event): void {

@@ -104,6 +104,13 @@ export class Product {
       return Object.values(this.cart).reduce((total, count) => total + count, 0);
     }
 
+    get cartTotalPrice(): number {
+      return this.products.reduce((total, product) => {
+        const count = this.getCartQuantity(product.id);
+        return total + count * product.price;
+      }, 0);
+    }
+
     get filteredProducts(): IProduct[] {
       if (!this.selectedCategoryId) {
         return this.products;

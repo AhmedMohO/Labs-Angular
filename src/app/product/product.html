@@ -1,7 +1,7 @@
 <div class="container py-3">
   <app-product-filter
     [categories]="categories"
-    [cartCount]="cartItemCount"
+    [cartTotalPrice]="cartTotalPrice"
     [selectedId]="selectedCategoryId"
     (selectionChanged)="onCategoryChanged($event)"
   ></app-product-filter>
