@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { IStudent } from '../models/istudent';
+import { IStudent } from '../../../models/istudent';
 
 @Component({
   selector: 'app-student-edit',
