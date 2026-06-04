@@ -1,62 +1,22 @@
-<app-student-list
-	[students]="students"
-	(studentSelected)="onStudentSelected($event)"
-	(editRequested)="onEditRequested($event)"
-></app-student-list>
+<section class="container py-3">
+	<h3 class="mb-3">Students</h3>
 
-<app-student-details [student]="selectedStudent"></app-student-details>
-
-<app-student-edit
-	[student]="editStudent"
-	[showAlert]="editAlert"
-	(saveRequested)="onEditSave($event)"
-	(cancelRequested)="onEditCancel()"
-></app-student-edit>
-
-<form class="card mt-3" (ngSubmit)="addStudent()">
-	<div class="card-body">
-		<h5 class="card-title">Add Student</h5>
-		@if (showAlert) {
-			<div class="alert alert-warning mb-3" role="alert">
-				ID already exists. Please enter a unique ID.
-			</div>
-		}
-		<div class="row g-3">
-			<div class="col-sm-4">
-				<label class="form-label" for="studentId">ID</label>
-				<input
-					id="studentId"
-					class="form-control"
-          type="number"
-					name="id"
-					[(ngModel)]="newStudent.id"
-					required
-				/>
-			</div>
-			<div class="col-sm-4">
-				<label class="form-label" for="studentName">Name</label>
-				<input
-					id="studentName"
-					class="form-control"
-					name="name"
-					[(ngModel)]="newStudent.name"
-					required
-				/>
-			</div>
-			<div class="col-sm-4">
-				<label class="form-label" for="studentAge">Age</label>
-				<input
-					id="studentAge"
-					class="form-control"
-					type="number"
-					name="age"
-					[(ngModel)]="newStudent.age"
-					required
-				/>
-			</div>
-		</div>
-		<button class="btn btn-primary mt-3" type="submit">
-			Add Student
-		</button>
+	<div class="d-flex flex-wrap gap-2 mb-4">
+		<a
+			class="btn btn-outline-primary"
+			routerLink="list"
+			routerLinkActive="active"
+		>
+			List
+		</a>
+		<a
+			class="btn btn-outline-success"
+			routerLink="add"
+			routerLinkActive="active"
+		>
+			Add
+		</a>
 	</div>
-</form>
+
+	<router-outlet></router-outlet>
+</section>

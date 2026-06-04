@@ -1,0 +1,29 @@
+<div class="card border-danger">
+	<div class="card-body">
+		<h5 class="card-title text-danger">Delete Student</h5>
+
+		@if (loading()) {
+			<p class="mb-0">Loading student...</p>
+		} @else {
+			@if (errorMessage()) {
+				<div class="alert alert-danger" role="alert">{{ errorMessage() }}</div>
+			}
+
+			@if (student()) {
+				<p>Are you sure you want to delete this student?</p>
+				<ul class="mb-3">
+					<li><strong>ID:</strong> {{ student()!.id }}</li>
+					<li><strong>Name:</strong> {{ student()!.name }}</li>
+					<li><strong>Age:</strong> {{ student()!.age }}</li>
+				</ul>
+
+				<div class="d-flex flex-wrap gap-2">
+					<button class="btn btn-danger" type="button" [disabled]="deleting()" (click)="confirmDelete()">
+						{{ deleting() ? 'Deleting...' : 'Confirm Delete' }}
+					</button>
+					<a class="btn btn-outline-secondary" routerLink="/students/list">Cancel</a>
+				</div>
+			}
+		}
+	</div>
+</div>

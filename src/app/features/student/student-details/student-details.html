@@ -1,18 +1,23 @@
-<div class="card mt-3">
-  @if (student()) {
+<div class="card">
 	<div class="card-body">
-		<h5 class="card-title">Student Details</h5>
-			<div class="row g-2">
-				<div class="col-12 col-md-4">
-					<strong>ID:</strong> {{ student()!.id }}
-				</div>
-				<div class="col-12 col-md-4">
-					<strong>Name:</strong> {{ student()!.name }}
-				</div>
-				<div class="col-12 col-md-4">
-					<strong>Age:</strong> {{ student()!.age }}
-				</div>
+		@if (loading()) {
+			<p class="mb-0">Loading student details...</p>
+		} @else if (errorMessage()) {
+			<div class="alert alert-danger" role="alert">{{ errorMessage() }}</div>
+			<a class="btn btn-outline-secondary" routerLink="/students/list">Back to list</a>
+		} @else if (student()) {
+			<h5 class="card-title">Student Details</h5>
+			<div class="row g-2 mb-3">
+				<div class="col-12 col-md-4"><strong>ID:</strong> {{ student()!.id }}</div>
+				<div class="col-12 col-md-4"><strong>Name:</strong> {{ student()!.name }}</div>
+				<div class="col-12 col-md-4"><strong>Age:</strong> {{ student()!.age }}</div>
 			</div>
-    </div>
-  }
+
+			<div class="d-flex flex-wrap gap-2">
+				<a class="btn btn-primary" [routerLink]="['/students/update', student()!.id]">Update</a>
+				<a class="btn btn-danger" [routerLink]="['/students/delete', student()!.id]">Delete</a>
+				<a class="btn btn-outline-secondary" routerLink="/students/list">Back to list</a>
+			</div>
+		}
+	</div>
 </div>

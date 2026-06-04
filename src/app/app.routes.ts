@@ -11,6 +11,11 @@ export const routes: Routes = [
     path: 'home', component: Home
   },
   {
+    path: 'students',
+    loadChildren: () =>
+      import('./features/student/student.routes').then((m) => m.studentRoutes),
+  },
+  {
     path: "contact", component: Contact
   },
   {

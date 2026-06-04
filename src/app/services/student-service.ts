@@ -1,48 +1,40 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 import { IStudent } from '../models/istudent';
+
+interface StudentApiResponse {
+  message: string;
+  student: IStudent;
+}
+
+export type StudentPayload = Pick<IStudent, 'name' | 'age'>;
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentService {
-  private students: IStudent[] = [
-    { id: 1, name: 'Mona Ali', age: 20 },
-    { id: 2, name: 'Omar Adel', age: 22 },
-    { id: 3, name: 'Sara Nabil', age: 19 },
-    { id: 4, name: 'Youssef Ahmed', age: 21 },
-  ];
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/api/students';
 
-  getStudents(): IStudent[] {
-    return this.students;
+  getAllStudents(): Observable<IStudent[]> {
+    return this.http.get<IStudent[]>(this.apiUrl);
   }
 
-  addStudentService(student: IStudent): boolean {
-    const exists = this.students.some((s) => s.id === student.id);
-
-    if (exists) {
-      return false;
-    }
-
-    this.students.push(student);
-    return true;
+  getStudentById(id: number): Observable<IStudent> {
+    return this.http.get<IStudent>(`${this.apiUrl}/${id}`);
   }
 
-  updateStudentService(oldId: number, updated: IStudent): boolean {
-    const duplicateId = this.students.some(
-      (s) => s.id === updated.id && s.id !== oldId,
-    );
+  addStudent(student: StudentPayload): Observable<StudentApiResponse> {
+    return this.http.post<StudentApiResponse>(this.apiUrl, student);
+  }
 
-    if (duplicateId) {
-      return false;
-    }
+  updateStudent(id: number, student: StudentPayload): Observable<StudentApiResponse> {
+    return this.http.put<StudentApiResponse>(`${this.apiUrl}/${id}`, student);
+  }
 
-    const index = this.students.findIndex((s) => s.id === oldId);
-
-    if (index === -1) {
-      return false;
-    }
-
-    this.students[index] = updated;
-    return true;
+  deleteStudent(id: number): Observable<StudentApiResponse> {
+    return this.http.delete<StudentApiResponse>(`${this.apiUrl}/${id}`);
   }
 }
