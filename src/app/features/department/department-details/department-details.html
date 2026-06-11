@@ -1,0 +1,29 @@
+<div class="card">
+  <div class="card-body">
+    @if (loading()) {
+      <p class="mb-0">Loading department details...</p>
+    } @else if (errorMessage()) {
+      <div class="alert alert-danger" role="alert">{{ errorMessage() }}</div>
+      <a class="btn btn-outline-secondary" routerLink="/departments/list">Back to list</a>
+    } @else if (department()) {
+      <h5 class="card-title">{{ department()!.name }}</h5>
+      
+      <div class="row g-2 mb-3">
+        <div class="col-12 col-md-4"><strong>ID:</strong> {{ department()!.id }}</div>
+        <div class="col-12 col-md-4"><strong>Total Students:</strong> {{ studentCount() }}</div>
+        <div class="col-12 col-md-4"><strong>Total Courses:</strong> {{ courses().length }}</div>
+      </div>
+
+      @if (courses().length > 0) {
+        <h6>Courses</h6>
+        <ul class="list-group mb-3">
+          @for (course of courses(); track course.id) {
+            <li class="list-group-item">{{ course.name }}</li>
+          }
+        </ul>
+      }
+
+      <a class="btn btn-outline-secondary" routerLink="/departments/list">Back to list</a>
+    }
+  </div>
+</div>
