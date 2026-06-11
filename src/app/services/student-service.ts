@@ -11,14 +11,18 @@ interface StudentApiResponse {
   student: IStudent;
 }
 
-export type StudentPayload = Pick<IStudent, 'name' | 'age' | 'departmentId' | 'courseId' | 'degree'>;
+export type StudentPayload = {
+  name: string;
+  age: number;
+  departmentId?: number;
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/students';
+  private apiUrl = '/api/students';
 
   getAllStudents(): Observable<IStudent[]> {
     return this.http.get<IStudent[]>(this.apiUrl);
@@ -46,7 +50,7 @@ export class StudentService {
 })
 export class DepartmentService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/departments';
+  private apiUrl = '/api/departments';
 
   getAllDepartments(): Observable<IDepartment[]> {
     return this.http.get<IDepartment[]>(this.apiUrl);
@@ -55,6 +59,18 @@ export class DepartmentService {
   getDepartmentById(id: number): Observable<IDepartment> {
     return this.http.get<IDepartment>(`${this.apiUrl}/${id}`);
   }
+
+  addDepartment(name: string): Observable<{ message: string; department: IDepartment }> {
+    return this.http.post<{ message: string; department: IDepartment }>(this.apiUrl, { name });
+  }
+
+  updateDepartment(id: number, name: string): Observable<{ message: string; department: IDepartment }> {
+    return this.http.put<{ message: string; department: IDepartment }>(`${this.apiUrl}/${id}`, { name });
+  }
+
+  deleteDepartment(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
+  }
 }
 
 @Injectable({
@@ -62,7 +78,8 @@ export class DepartmentService {
 })
 export class CourseService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/courses';
+  private apiUrl = '/api/courses';
+  private departmentUrl = '/api/departments';
 
   getAllCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(this.apiUrl);
@@ -73,6 +90,22 @@ export class CourseService {
   }
 
   getCoursesByDepartment(departmentId: number): Observable<ICourse[]> {
-    return this.http.get<ICourse[]>(`http://localhost:3000/api/departments/${departmentId}/courses`);
+    return this.http.get<ICourse[]>(`${this.departmentUrl}/${departmentId}/courses`);
+  }
+
+  getAllDepartments(): Observable<IDepartment[]> {
+    return this.http.get<IDepartment[]>(this.departmentUrl);
+  }
+
+  addCourse(name: string, departmentId: number): Observable<{ message: string; course: ICourse }> {
+    return this.http.post<{ message: string; course: ICourse }>(this.apiUrl, { name, departmentId });
+  }
+
+  updateCourse(id: number, name: string, departmentId: number): Observable<{ message: string; course: ICourse }> {
+    return this.http.put<{ message: string; course: ICourse }>(`${this.apiUrl}/${id}`, { name, departmentId });
+  }
+
+  deleteCourse(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
   }
 }

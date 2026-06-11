@@ -3,6 +3,4 @@ export interface IStudent {
   name: string;
   age: number;
   departmentId: number;
-  courseId: number;
-  degree: number;
 }

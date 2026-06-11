@@ -1,0 +1,58 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Add Enrollment</h5>
+
+    @if (successMessage()) {
+      <div class="alert alert-success" role="alert">{{ successMessage() }}</div>
+    }
+
+    @if (errorMessage()) {
+      <div class="alert alert-danger" role="alert">{{ errorMessage() }}</div>
+    }
+
+    <form (ngSubmit)="submit()">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="student">Student</label>
+          <select id="student" class="form-select" [(ngModel)]="selectedStudentId" name="studentId" (ngModelChange)="onStudentChange()" required [disabled]="loading() || students().length === 0">
+            <option value="">Select Student</option>
+            @for (student of students(); track student.id) {
+              <option [value]="student.id">{{ student.name }}</option>
+            }
+          </select>
+          @if (students().length === 0 && !loading()) {
+            <small class="text-muted">No students available.</small>
+          }
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="course">Course</label>
+          <select id="course" class="form-select" [(ngModel)]="selectedCourseId" name="courseId" [disabled]="!selectedStudentId || loadingCourses()" required>
+            <option value="">Select Course</option>
+            @for (course of courses(); track course.id) {
+              <option [value]="course.id">{{ course.name }}</option>
+            }
+          </select>
+          @if (loadingCourses()) {
+            <small class="text-muted">Loading courses...</small>
+          } @else if (selectedStudentId && courses().length === 0) {
+            <small class="text-muted">{{ errorMessage() || 'No courses available for this student\'s department.' }}</small>
+          }
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="degree">Degree (Optional)</label>
+          <input id="degree" class="form-control" type="number" name="degree" [(ngModel)]="degree" min="0" max="100" placeholder="Enter grade (0-100)" />
+          <small class="text-muted">Leave empty if grade not yet available.</small>
+        </div>
+      </div>
+
+      <div class="mt-3 d-flex flex-wrap gap-2">
+        <button class="btn btn-success" type="submit" [disabled]="saving() || loading()">
+          {{ saving() ? 'Saving...' : 'Add Enrollment' }}
+        </button>
+        <a class="btn btn-outline-secondary" routerLink="/enrollments/list">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Edit Course Degree</h5>
+
+    @if (loading()) {
+      <p class="mb-0">Loading enrollment...</p>
+    } @else if (errorMessage()) {
+      <div class="alert alert-danger" role="alert">{{ errorMessage() }}</div>
+      <a class="btn btn-outline-secondary" routerLink="/enrollments/list">Back to list</a>
+    } @else if (enrollment()) {
+      @if (successMessage()) {
+        <div class="alert alert-success" role="alert">{{ successMessage() }}</div>
+      }
+
+      <div class="row g-2 mb-3">
+        <div class="col-12 col-md-6"><strong>Student:</strong> {{ student()?.name || 'Unknown' }}</div>
+        <div class="col-12 col-md-6"><strong>Course:</strong> {{ course()?.name || 'Unknown' }}</div>
+      </div>
+
+      <form (ngSubmit)="updateDegree()">
+        <div class="mb-3">
+          <label class="form-label" for="degree">Degree (0-100)</label>
+          <input id="degree" class="form-control" type="number" name="degree" [(ngModel)]="degreeInput" min="0" max="100" placeholder="Enter grade or leave empty" />
+          <small class="text-muted">Leave empty if degree not yet available. Can be updated later.</small>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-primary" type="submit" [disabled]="saving()">
+            {{ saving() ? 'Saving...' : 'Update Degree' }}
+          </button>
+          <a class="btn btn-outline-secondary" routerLink="/enrollments/list">Cancel</a>
+        </div>
+      </form>
+    }
+  </div>
+</div>

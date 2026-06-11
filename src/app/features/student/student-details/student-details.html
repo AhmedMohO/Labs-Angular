@@ -11,18 +11,9 @@
         <div class="col-12 col-md-4"><strong>ID:</strong> {{ student()!.id }}</div>
         <div class="col-12 col-md-4"><strong>Name:</strong> {{ student()!.name }}</div>
         <div class="col-12 col-md-4"><strong>Age:</strong> {{ student()!.age }}</div>
-        <div class="col-12 col-md-4"><strong>Department:</strong> {{ department()?.name || 'Loading...' }}</div>
-        <div class="col-12 col-md-4"><strong>Course:</strong> {{ course()?.name || 'Loading...' }}</div>
-        <div class="col-12 col-md-4"><strong>Degree:</strong> 
-          <span class="badge" [class.bg-success]="student()!.degree >= 85" [class.bg-warning]="student()!.degree >= 65 && student()!.degree < 85" [class.bg-danger]="student()!.degree < 65">
-            {{ student()!.degree }}
-          </span>
-        </div>
       </div>
 
       <div class="d-flex flex-wrap gap-2">
-        <a class="btn btn-primary" [routerLink]="['/students/update', student()!.id]">Update</a>
-        <a class="btn btn-danger" [routerLink]="['/students/delete', student()!.id]">Delete</a>
         <a class="btn btn-outline-secondary" routerLink="/students/list">Back to list</a>
       </div>
     }

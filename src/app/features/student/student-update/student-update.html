@@ -19,30 +19,15 @@
             <label class="form-label" for="studentAge">Age</label>
             <input id="studentAge" class="form-control" type="number" name="age" [(ngModel)]="age" required />
           </div>
-          
+
           <div class="col-md-6">
             <label class="form-label" for="department">Department</label>
-            <select id="department" class="form-select" [(ngModel)]="selectedDepartmentId" name="departmentId" (change)="onDepartmentChange()" required>
+            <select id="department" class="form-select" [(ngModel)]="selectedDepartmentId" name="departmentId">
               <option value="">Select Department</option>
-              @for (dept of departments; track dept.id) {
+              @for (dept of departments(); track dept.id) {
                 <option [value]="dept.id">{{ dept.name }}</option>
               }
             </select>
-          </div>
-          
-          <div class="col-md-6">
-            <label class="form-label" for="course">Course</label>
-            <select id="course" class="form-select" [(ngModel)]="selectedCourseId" name="courseId" [disabled]="!selectedDepartmentId" required>
-              <option value="">Select Course</option>
-              @for (course of courses; track course.id) {
-                <option [value]="course.id">{{ course.name }}</option>
-              }
-            </select>
-          </div>
-          
-          <div class="col-md-6">
-            <label class="form-label" for="degree">Degree</label>
-            <input id="degree" class="form-control" type="number" name="degree" [(ngModel)]="degree" min="0" max="100" required />
           </div>
         </div>
 

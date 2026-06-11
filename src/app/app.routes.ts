@@ -22,6 +22,16 @@ export const routes: Routes = [
       import('./features/department/department.routes').then((m) => m.departmentRoutes),
   },
   {
+    path: 'courses',
+    loadChildren: () =>
+      import('./features/course/course.routes').then((m) => m.courseRoutes),
+  },
+  {
+    path: 'enrollments',
+    loadChildren: () =>
+      import('./features/enrollment/enrollment.routes').then((m) => m.enrollmentRoutes),
+  },
+  {
     path: "contact", component: Contact
   },
   {

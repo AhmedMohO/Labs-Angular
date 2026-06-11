@@ -16,6 +16,11 @@ export const departmentRoutes: Routes = [
           import('./department-list/department-list').then((m) => m.DepartmentList),
       },
       {
+        path: 'add',
+        loadComponent: () =>
+          import('./department-add/department-add').then((m) => m.DepartmentAdd),
+      },
+      {
         path: 'details/:id',
         loadComponent: () =>
           import('./department-details/department-details').then((m) => m.DepartmentDetails),

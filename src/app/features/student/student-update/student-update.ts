@@ -5,8 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { IStudent } from '../../../models/istudent';
 import { IDepartment } from '../../../models/idepartment';
-import { ICourse } from '../../../models/icourse';
-import { StudentService, DepartmentService, CourseService } from '../../../services/student-service';
+import { StudentService, DepartmentService } from '../../../services/student-service';
 
 @Component({
   selector: 'app-student-update',
@@ -19,17 +18,13 @@ export class StudentUpdate implements OnInit {
   private router = inject(Router);
   private studentService = inject(StudentService);
   private departmentService = inject(DepartmentService);
-  private courseService = inject(CourseService);
 
   id = 0;
   name = '';
   age = 0;
-  degree = 0;
   selectedDepartmentId: number | null = null;
-  selectedCourseId: number | null = null;
 
-  departments: IDepartment[] = [];
-  courses: ICourse[] = [];
+  departments = signal<IDepartment[]>([]);
 
   loading = signal(true);
   saving = signal(false);
@@ -50,13 +45,8 @@ export class StudentUpdate implements OnInit {
       next: (student) => {
         this.name = student.name;
         this.age = student.age;
-        this.degree = student.degree;
-        this.selectedDepartmentId = student.departmentId;
-        this.selectedCourseId = student.courseId;
+        this.selectedDepartmentId = student.departmentId ?? null;
         this.loading.set(false);
-        if (this.selectedDepartmentId) {
-          this.loadCourses(this.selectedDepartmentId);
-        }
       },
       error: () => {
         this.errorMessage.set('Student not found.');
@@ -68,34 +58,17 @@ export class StudentUpdate implements OnInit {
   loadDepartments(): void {
     this.departmentService.getAllDepartments().subscribe({
       next: (depts) => {
-        this.departments = depts;
+        this.departments.set(depts);
       },
       error: () => {},
     });
-  }
-
-  loadCourses(departmentId: number): void {
-    this.courseService.getCoursesByDepartment(departmentId).subscribe({
-      next: (courses) => {
-        this.courses = courses;
-      },
-      error: () => {},
-    });
-  }
-
-  onDepartmentChange(): void {
-    this.selectedCourseId = null;
-    this.courses = [];
-    if (this.selectedDepartmentId) {
-      this.loadCourses(this.selectedDepartmentId);
-    }
   }
 
   submit(): void {
     const trimmedName = this.name.trim();
 
-    if (!trimmedName || this.age <= 0 || !this.selectedDepartmentId || !this.selectedCourseId || this.degree < 0) {
-      this.errorMessage.set('Please provide all required fields.');
+    if (!trimmedName || this.age <= 0) {
+      this.errorMessage.set('Please provide valid name and age.');
       return;
     }
 
@@ -105,9 +78,7 @@ export class StudentUpdate implements OnInit {
     this.studentService.updateStudent(this.id, {
       name: trimmedName,
       age: this.age,
-      departmentId: this.selectedDepartmentId,
-      courseId: this.selectedCourseId,
-      degree: this.degree
+      departmentId: this.selectedDepartmentId ?? undefined
     }).subscribe({
       next: () => {
         this.saving.set(false);
